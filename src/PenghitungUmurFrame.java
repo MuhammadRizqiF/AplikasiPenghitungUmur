@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 /**
  *
  * @author 07rrk
@@ -15,6 +18,8 @@ public class PenghitungUmurFrame extends javax.swing.JFrame {
      */
     public PenghitungUmurFrame() {
         initComponents();
+        
+        
     }
 
     /**
@@ -45,10 +50,25 @@ public class PenghitungUmurFrame extends javax.swing.JFrame {
         jLabel3.setText("Hari Ulang Tahun Berikutnya");
 
         dateChooserTanggalLahir.setDateFormatString("dd-MM-yyyy");
+        dateChooserTanggalLahir.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dateChooserTanggalLahirPropertyChange(evt);
+            }
+        });
 
         btnHitung.setText("Hitung Umur");
+        btnHitung.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHitungActionPerformed(evt);
+            }
+        });
 
         btnKeluar.setText("Keluar");
+        btnKeluar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKeluarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,6 +125,35 @@ public class PenghitungUmurFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnHitungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHitungActionPerformed
+        // TODO add your handling code here:
+        Date tanggalLahir = dateChooserTanggalLahir.getDate();
+    if (tanggalLahir != null) {
+        // Menghitung umur dan hari ulang tahun berikutnya
+        LocalDate lahir = tanggalLahir.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate sekarang = LocalDate.now();
+        String umur = helper.hitungUmurDetail(lahir, sekarang);
+        txtUmur.setText(umur);
+        // Menghitung tanggal ulang tahun berikutnya
+        LocalDate ulangTahunBerikutnya = helper.hariUlangTahunBerikutnya(lahir, sekarang);
+        String hariUlangTahunBerikutnya;
+            hariUlangTahunBerikutnya = helper.getDayOfWeekInIndonesian(ulangTahunBerikutnya);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMyyyy");
+        String tanggalUlangTahunBerikutnya = ulangTahunBerikutnya.format(formatter);
+        txtHariUlangTahunBerikutnya.setText(hariUlangTahunBerikutnya + " (" + tanggalUlangTahunBerikutnya + ")");       
+    }//GEN-LAST:event_btnHitungActionPerformed
+
+    private void btnKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKeluarActionPerformed
+    System.exit(0);
+}        // TODO add your handling code here:
+    }//GEN-LAST:event_btnKeluarActionPerformed
+
+    private void dateChooserTanggalLahirPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateChooserTanggalLahirPropertyChange
+       txtUmur.setText("");
+    txtHariUlangTahunBerikutnya.setText("");
+       // TODO add your handling code here:
+    }//GEN-LAST:event_dateChooserTanggalLahirPropertyChange
+
     /**
      * @param args the command line arguments
      */
@@ -150,4 +199,22 @@ public class PenghitungUmurFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtHariUlangTahunBerikutnya;
     private javax.swing.JTextField txtUmur;
     // End of variables declaration//GEN-END:variables
+
+    private static class helper {
+
+        private static LocalDate hariUlangTahunBerikutnya(LocalDate lahir, LocalDate sekarang) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        private static String hitungUmurDetail(LocalDate lahir, LocalDate sekarang) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        private static String getDayOfWeekInIndonesian(LocalDate ulangTahunBerikutnya) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        public helper() {
+        }
+    }
 }
